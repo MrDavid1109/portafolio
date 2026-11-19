@@ -35,6 +35,34 @@ export const BRANCHES = {
    añade cover (ruta a la captura principal) y shots (galería). */
 export const PROJECTS = [
   {
+    id:"sgema-connect",
+    title:"SGema Connect",
+    tagline:"App de empleo y comunidad para el alumnado de FP.",
+    year:"", role:"Desarrollo completo",
+    stack:["Flutter","Firebase","Cloud Functions","FCM"],
+    highlights:[
+      "Bolsa de empleo con envío de CV a empresas y ofertas exclusivas del centro.",
+      "Foro por familias profesionales, agenda de eventos y mentorías.",
+      "Backend serverless en Firebase: avisos push (FCM) y correos automáticos."
+    ],
+    p:"App en Flutter para el alumnado de FP del Colegio Santa Gema (Android, iOS y web): bolsa de empleo, agenda de eventos, comunidad y mentorías. Backend serverless en Firebase con Cloud Functions para notificaciones y correos. Es la pieza del alumnado de un sistema de dos partes que comparte el panel de coordinación.",
+    demo:"https://sgema-connect-app.vercel.app/", code:"", cover:"", shots:[], ejemplo:false
+  },
+  {
+    id:"panel-coordinador",
+    title:"Panel de coordinadores",
+    tagline:"Panel web de gestión para coordinación — parte de SGema Connect.",
+    year:"", role:"Desarrollo completo",
+    stack:["React","Vite","Firebase","Firestore"],
+    highlights:[
+      "Aprobación de cuentas de alumnado y coordinadores (roles y superadmin).",
+      "Publicación de ofertas y eventos, moderación del foro e informes imprimibles.",
+      "Verificación automática del alumnado contra el histórico, con claves cifradas (HMAC)."
+    ],
+    p:"Panel web en React + Vite sobre Firebase para los coordinadores de FP: aprobar cuentas, publicar ofertas y eventos, moderar la comunidad y generar informes. Comparte el backend de Firebase (Firestore, Storage y reglas de seguridad) con la app del alumnado.",
+    demo:"https://panel-coordinador.vercel.app", code:"", cover:"", shots:[], ejemplo:false
+  },
+  {
     id:"visoroa",
     title:"VisorOA",
     tagline:"App de escritorio para visualizar objetos de aprendizaje.",
@@ -47,34 +75,6 @@ export const PROJECTS = [
     ],
     p:"Aplicación de escritorio para abrir y visualizar objetos de aprendizaje, hecha con Electron y Node.js. Una herramienta docente que acerca el contenido al aula. (Añade una captura en la galería para que luzca.)",
     demo:"", code:"https://github.com/MrDavid1109/VisorOA", cover:"", shots:[], ejemplo:false
-  },
-  {
-    id:"plataforma-web",
-    title:"Plataforma web (ejemplo)",
-    tagline:"Aplicación web completa, de la base de datos a la interfaz.",
-    year:"2025", role:"Diseño, backend y frontend",
-    stack:["JavaScript","API REST","SQL","Vite"],
-    highlights:[
-      "Autenticación con roles de usuario.",
-      "API REST propia sobre base de datos relacional.",
-      "Desplegada y accesible desde cualquier dispositivo."
-    ],
-    p:"Sustituye este texto por tu mejor proyecto web: qué problema resuelve, qué construiste tú y cómo. Añade capturas en la galería.",
-    demo:"", code:"", cover:"", shots:[], ejemplo:true
-  },
-  {
-    id:"proyecto-ia",
-    title:"Proyecto con IA en Python (ejemplo)",
-    tagline:"Prototipo que integra un modelo de IA en algo útil.",
-    year:"2025", role:"Idea y programación",
-    stack:["Python","IA"],
-    highlights:[
-      "Integra un modelo de IA en un flujo real.",
-      "Pensado también como material de aula.",
-      "Código ordenado y reproducible."
-    ],
-    p:"Cuenta aquí tu proyecto de IA: qué hace, qué modelo usa y por qué es interesante. Añade capturas o un enlace a la demo.",
-    demo:"", code:"", cover:"", shots:[], ejemplo:true
   }
 ];
 export const LOG = [

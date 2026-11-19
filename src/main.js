@@ -77,7 +77,7 @@ function openProject(id){
     : "";
   pjBody.innerHTML=`
     <div class="pj-detail-cover ${p.cover?"":"no-cover"}">${cover(p,true)}</div>
-    <p class="pj-commit">commit #${esc(p.id)} · ${esc(p.year)} · ${esc(p.role)}</p>
+    <p class="pj-commit">commit ${esc(["#"+p.id, p.year, p.role].filter(Boolean).join(" · "))}</p>
     <h2 id="pjTitle">${esc(p.title.replace(/\s*\(ejemplo\)/i,""))}${p.ejemplo?'<span class="pj-eg">ejemplo</span>':''}</h2>
     <p class="pj-lead">${esc(p.tagline)}</p>
     <p class="pj-desc">${esc(p.p)}</p>
