@@ -38,7 +38,7 @@ export const PROJECTS = [
     id:"sgema-connect",
     title:"SGema Connect",
     tagline:"App de empleo y comunidad para el alumnado de FP.",
-    year:"", role:"Desarrollo completo",
+    year:"2026–2027", role:"Desarrollo completo",
     stack:["Flutter","Firebase","Cloud Functions","FCM"],
     highlights:[
       "Bolsa de empleo con envío de CV a empresas y ofertas exclusivas del centro.",
@@ -52,7 +52,7 @@ export const PROJECTS = [
     id:"panel-coordinador",
     title:"Panel de coordinadores",
     tagline:"Panel web de gestión para coordinación — parte de SGema Connect.",
-    year:"", role:"Desarrollo completo",
+    year:"2026–2027", role:"Desarrollo completo",
     stack:["React","Vite","Firebase","Firestore"],
     highlights:[
       "Aprobación de cuentas de alumnado y coordinadores (roles y superadmin).",
@@ -63,22 +63,22 @@ export const PROJECTS = [
     demo:"https://panel-coordinador.vercel.app", code:"", cover:"img/panel-coordinador.jpg", shots:[], ejemplo:false
   },
   {
-    id:"visoroa",
-    title:"VisorOA",
-    tagline:"App de escritorio para visualizar objetos de aprendizaje.",
-    year:"2023", role:"Desarrollo completo",
-    stack:["Electron","Node.js","Java","Desktop"],
+    id:"fct-manager",
+    title:"FCT Manager Santa Gema",
+    tagline:"Herramienta en Python para gestionar las FCT y la FP Dual del centro.",
+    year:"", role:"Idea y desarrollo",
+    stack:["Python","PDF","Google Sheets","Excel"],
     highlights:[
-      "Visor de objetos de aprendizaje (OA) pensado para el aula.",
-      "Aplicación de escritorio construida con Electron y Node.js.",
-      "Requiere Java para el procesamiento de los contenidos."
+      "Empresas colaboradoras y asignación de alumnos con un tablero visual.",
+      "Documentos oficiales de FP Dual y FCT (convenios, anexos e informes) en PDF.",
+      "Importación desde Excel, sincronización con Google Sheets y backup automático."
     ],
-    p:"Aplicación de escritorio para abrir y visualizar objetos de aprendizaje, hecha con Electron y Node.js. Una herramienta docente que acerca el contenido al aula. (Añade una captura en la galería para que luzca.)",
-    demo:"", code:"https://github.com/MrDavid1109/VisorOA", cover:"", shots:[], ejemplo:false
+    p:"Aplicación interna en Python para gestionar todo el proceso de prácticas de FP del centro: alumnos, empresas, plazas, documentación oficial, informes y seguimiento. Incluye control de acceso y publicación mediante Cloudflare Tunnel para acceso externo. Repositorio privado; capturas próximamente.",
+    demo:"", code:"", cover:"", shots:[], ejemplo:false
   }
 ];
 export const LOG = [
-  {when:"En curso", t:"Máster (indica el nombre)", p:"Lo estoy cursando ahora. Falta el nombre del máster y la universidad.", c:"var(--dev)", now:true},
+  {when:"En curso", t:"Máster en Formación del Profesorado", p:"Especialidad en Tecnología e Informática (Secundaria, Bachillerato, FP e Idiomas). TechTitute.", c:"var(--dev)", now:true},
   {when:"2018 — 2023", t:"Ingeniería en Ciencias Informáticas", p:"Universidad de las Ciencias Informáticas.", c:"var(--doc)"},
   {when:"Año", t:"Certificaciones y cursos (ejemplo)", p:"Aquí puedes añadir certificaciones técnicas, idiomas o cursos de docencia.", c:"var(--coord)"}
 ];

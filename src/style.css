@@ -88,6 +88,7 @@ header.top .wrap{display:flex;align-items:center;justify-content:space-between;g
 .hero{position:relative;padding:56px 0 72px;overflow:hidden}
 .hero .wrap{position:relative;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);gap:40px;align-items:center}
 .hero-top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.hero-top .avatar{width:60px;height:60px;border-radius:50%;object-fit:cover;border:2px solid color-mix(in srgb,var(--accent) 60%,var(--line));box-shadow:0 0 0 4px rgba(var(--accent-rgb),.12)}
 .hero-top strong{font:700 1.3rem var(--display)}
 .hero-top .role{flex-basis:100%;font:400 .92rem var(--mono);color:var(--muted);letter-spacing:.01em}
 .status{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:6px 14px 6px 12px;font:400 .82rem var(--mono)}
