@@ -11,6 +11,8 @@
   --coord:#7be0a4;
   --accent:#4cc9f0;
   --accent-rgb:76,201,240;
+  --mtx:#1dff87;
+  --mtx-rgb:29,255,135;
   --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
   --body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
   --mono:"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
@@ -59,14 +61,20 @@ section{padding:96px 0}
 #loader .bar i{display:block;height:100%;width:100%;background:var(--accent);transform:scaleX(0);transform-origin:left}
 html:not(.js) #loader{display:none}
 
-/* cursor */
-.cur-dot,.cur-ring{position:fixed;left:0;top:0;pointer-events:none;z-index:90;display:none}
-html.cur .cur-dot,html.cur .cur-ring{display:grid}
+/* cursor matrix */
+.cur-dot,.cur-ring{position:fixed;left:0;top:0;pointer-events:none;z-index:200;display:none}
+html.cur .cur-ring{display:grid}
+html.cur .cur-dot{display:flex}
 html.cur,html.cur a,html.cur button{cursor:none}
-.cur-dot{width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:var(--accent)}
-.cur-ring{width:38px;height:38px;margin:-19px 0 0 -19px;border:1.5px solid rgba(var(--accent-rgb),.7);border-radius:50%;place-items:center;font:500 .72rem var(--mono);color:var(--text);transition:width .3s var(--ease),height .3s var(--ease),margin .3s var(--ease),background .3s}
+.cur-dot{flex-direction:column;align-items:center;width:14px;margin:-48px 0 0 -7px;font:700 11px/1.25 var(--mono);text-align:center}
+.cur-dot span{display:block;color:var(--mtx)}
+.cur-dot span:nth-child(1){opacity:.22}
+.cur-dot span:nth-child(2){opacity:.45}
+.cur-dot span:nth-child(3){opacity:.72}
+.cur-dot span:nth-child(4){color:#eafff3;opacity:1;text-shadow:0 0 8px rgba(var(--mtx-rgb),.95)}
+.cur-ring{width:38px;height:38px;margin:-19px 0 0 -19px;border:1.5px solid rgba(var(--mtx-rgb),.6);border-radius:50%;place-items:center;font:500 .72rem var(--mono);color:#eafff3;transition:width .3s var(--ease),height .3s var(--ease),margin .3s var(--ease),background .3s}
 .cur-ring span{opacity:0;transition:opacity .2s}
-.cur-ring.big{width:92px;height:92px;margin:-46px 0 0 -46px;background:rgba(var(--accent-rgb),.16)}
+.cur-ring.big{width:92px;height:92px;margin:-46px 0 0 -46px;background:rgba(var(--mtx-rgb),.14);border-color:rgba(var(--mtx-rgb),.9)}
 .cur-ring.big span{opacity:1}
 
 /* cabecera */

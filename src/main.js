@@ -1,9 +1,12 @@
+import Lenis from 'lenis';
+import 'lenis/dist/lenis.css';
 import { CONTENT, UI, ACCENTS } from './data.js';
 
 const $ = (s,r=document)=>r.querySelector(s);
 const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
 const root = document.documentElement;
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+let lenis = null;
 function el(tag, cls, html){ const e=document.createElement(tag); if(cls) e.className=cls; if(html!=null) e.innerHTML=html; return e; }
 const clamp = (v,a,b)=>Math.min(b,Math.max(a,v));
 
@@ -108,11 +111,13 @@ function openProject(id){
   lastFocus=document.activeElement;
   modal.classList.add("open"); modal.setAttribute("aria-hidden","false");
   document.body.style.overflow="hidden";
+  if(lenis) lenis.stop();
   pjClose.focus();
 }
 function closeProject(){
   modal.classList.remove("open"); modal.setAttribute("aria-hidden","true");
   document.body.style.overflow="";
+  if(lenis) lenis.start();
   if(lastFocus) lastFocus.focus();
 }
 projgrid.addEventListener("click",e=>{
@@ -213,6 +218,9 @@ if(!reduce){
 if(matchMedia("(hover:hover) and (pointer:fine)").matches && !reduce){
   root.classList.add("cur");
   const dot=$("#curDot"), ring=$("#curRing"), lab=$("#curLab");
+  dot.innerHTML="<span>0</span><span>1</span><span>0</span><span>1</span>";
+  const mtx=$$("span",dot);
+  setInterval(()=>{ for(const s of mtx){ if(Math.random()<.7) s.textContent=Math.random()<.5?"0":"1"; } },70);
   let tx=innerWidth/2, ty=innerHeight/2, rx=tx, ry=ty;
   addEventListener("pointermove",e=>{ tx=e.clientX; ty=e.clientY; dot.style.transform=`translate3d(${tx}px,${ty}px,0)`; },{passive:true});
   (function loop(){ rx+=(tx-rx)*.16; ry+=(ty-ry)*.16; ring.style.transform=`translate3d(${rx}px,${ry}px,0)`; requestAnimationFrame(loop); })();
@@ -291,4 +299,18 @@ else{
     else{ loader.classList.add("done"); setTimeout(reveal,250); setTimeout(()=>loader.remove(),1000); }
   })(t0);
   setTimeout(reveal,3000);
+}
+
+/* ---------- scroll suave (Lenis) ---------- */
+if(!reduce){
+  lenis = new Lenis({ duration:1.1, smoothWheel:true });
+  lenis.on("scroll",()=>{ if(!ticking){ ticking=true; requestAnimationFrame(onScroll);} });
+  (function lraf(time){ lenis.raf(time); requestAnimationFrame(lraf); })();
+  $$('a[href^="#"]').forEach(a=>{
+    a.addEventListener("click",e=>{
+      const id=a.getAttribute("href"); if(!id||id.length<2) return;
+      const target=document.querySelector(id); if(!target) return;
+      e.preventDefault(); lenis.scrollTo(target,{offset:-84});
+    });
+  });
 }
