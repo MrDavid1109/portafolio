@@ -43,7 +43,8 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":
 const initials = t => t.replace(/\(ejemplo\)/i,"").trim().split(/\s+/).slice(0,2).map(w=>w[0]||"").join("").toUpperCase();
 function cover(p, big){
   if(p.cover) return `<img src="${esc(p.cover)}" alt="Captura de ${esc(p.title)}" loading="lazy">`;
-  return `<span class="pj-ph" aria-hidden="true">${esc(initials(p.title))}</span><span class="pj-ph-note">${big?"sin captura · añade una imagen":"ejemplo · añade captura"}</span>`;
+  const note = p.ejemplo ? (big?"ejemplo · añade una imagen":"ejemplo · añade captura") : (big?"sin captura · añade una imagen":"sin captura");
+  return `<span class="pj-ph" aria-hidden="true">${esc(initials(p.title))}</span><span class="pj-ph-note">${note}</span>`;
 }
 function links(p){
   let out="";

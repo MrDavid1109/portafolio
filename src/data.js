@@ -35,6 +35,20 @@ export const BRANCHES = {
    añade cover (ruta a la captura principal) y shots (galería). */
 export const PROJECTS = [
   {
+    id:"visoroa",
+    title:"VisorOA",
+    tagline:"App de escritorio para visualizar objetos de aprendizaje.",
+    year:"2023", role:"Desarrollo completo",
+    stack:["Electron","Node.js","Java","Desktop"],
+    highlights:[
+      "Visor de objetos de aprendizaje (OA) pensado para el aula.",
+      "Aplicación de escritorio construida con Electron y Node.js.",
+      "Requiere Java para el procesamiento de los contenidos."
+    ],
+    p:"Aplicación de escritorio para abrir y visualizar objetos de aprendizaje, hecha con Electron y Node.js. Una herramienta docente que acerca el contenido al aula. (Añade una captura en la galería para que luzca.)",
+    demo:"", code:"https://github.com/MrDavid1109/VisorOA", cover:"", shots:[], ejemplo:false
+  },
+  {
     id:"plataforma-web",
     title:"Plataforma web (ejemplo)",
     tagline:"Aplicación web completa, de la base de datos a la interfaz.",
@@ -46,20 +60,6 @@ export const PROJECTS = [
       "Desplegada y accesible desde cualquier dispositivo."
     ],
     p:"Sustituye este texto por tu mejor proyecto web: qué problema resuelve, qué construiste tú y cómo. Añade capturas en la galería.",
-    demo:"", code:"", cover:"", shots:[], ejemplo:true
-  },
-  {
-    id:"app-escritorio",
-    title:"Aplicación de escritorio (ejemplo)",
-    tagline:"Herramienta de escritorio con acceso a datos y gestión de usuarios.",
-    year:"2024", role:"Desarrollo completo",
-    stack:["Desktop","SQL","UI"],
-    highlights:[
-      "Interfaz pensada para quien la usa a diario.",
-      "Lectura y escritura sobre base de datos local.",
-      "Instalable y lista para trabajar sin conexión."
-    ],
-    p:"Describe aquí tu aplicación de escritorio: para quién es, qué resuelve y qué tecnología usaste. Añade capturas.",
     demo:"", code:"", cover:"", shots:[], ejemplo:true
   },
   {
