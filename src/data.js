@@ -78,10 +78,9 @@ export const PROJECTS = [
   }
 ];
 export const LOG = [
-  {when:"En curso", t:"Máster (indica el nombre)", p:"Lo estoy cursando ahora. Aquí irá la universidad y la especialidad.", c:"var(--dev)", now:true},
-  {when:"Año", t:"Titulación universitaria (ejemplo)", p:"Sustituye por tu grado o ingeniería, con la universidad.", c:"var(--doc)"},
-  {when:"Año", t:"Ciclo formativo (ejemplo)", p:"Sustituye por tu ciclo de Formación Profesional, si lo tienes.", c:"var(--coord)"},
-  {when:"Año", t:"Certificaciones y cursos (ejemplo)", p:"Aquí puedes añadir certificaciones técnicas, idiomas o cursos de docencia.", c:"var(--dev)"}
+  {when:"En curso", t:"Máster (indica el nombre)", p:"Lo estoy cursando ahora. Falta el nombre del máster y la universidad.", c:"var(--dev)", now:true},
+  {when:"2018 — 2023", t:"Ingeniería en Ciencias Informáticas", p:"Universidad de las Ciencias Informáticas.", c:"var(--doc)"},
+  {when:"Año", t:"Certificaciones y cursos (ejemplo)", p:"Aquí puedes añadir certificaciones técnicas, idiomas o cursos de docencia.", c:"var(--coord)"}
 ];
 export const STACK = [
   {g:"Web", c:"var(--dev)", i:["HTML","CSS","JavaScript","APIs REST"]},
