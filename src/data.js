@@ -46,7 +46,7 @@ export const PROJECTS = [
       "Backend serverless en Firebase: avisos push (FCM) y correos automáticos."
     ],
     p:"App en Flutter para el alumnado de FP del Colegio Santa Gema (Android, iOS y web): bolsa de empleo, agenda de eventos, comunidad y mentorías. Backend serverless en Firebase con Cloud Functions para notificaciones y correos. Es la pieza del alumnado de un sistema de dos partes que comparte el panel de coordinación.",
-    demo:"https://sgema-connect-app.vercel.app/", code:"", cover:"", shots:[], ejemplo:false
+    demo:"https://sgema-connect-app.vercel.app/", code:"", cover:"img/sgema-connect.jpg", shots:[], ejemplo:false
   },
   {
     id:"panel-coordinador",
@@ -60,7 +60,7 @@ export const PROJECTS = [
       "Verificación automática del alumnado contra el histórico, con claves cifradas (HMAC)."
     ],
     p:"Panel web en React + Vite sobre Firebase para los coordinadores de FP: aprobar cuentas, publicar ofertas y eventos, moderar la comunidad y generar informes. Comparte el backend de Firebase (Firestore, Storage y reglas de seguridad) con la app del alumnado.",
-    demo:"https://panel-coordinador.vercel.app", code:"", cover:"", shots:[], ejemplo:false
+    demo:"https://panel-coordinador.vercel.app", code:"", cover:"img/panel-coordinador.jpg", shots:[], ejemplo:false
   },
   {
     id:"visoroa",
