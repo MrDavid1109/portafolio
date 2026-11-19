@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mrdavid1109.github.io/portafolio/sitemap.xml
