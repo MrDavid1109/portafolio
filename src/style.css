@@ -41,6 +41,11 @@ h2{font-size:clamp(2.2rem,5.4vw,4rem);font-weight:800;letter-spacing:-.03em;text
 .sec-head p:not(.label){color:var(--muted)}
 section{padding:96px 0}
 
+/* entrada suave al hacer scroll */
+.reveal{opacity:0}
+.reveal.in{animation:rise .6s var(--ease) both}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+
 /* progreso de scroll */
 #progress{position:fixed;left:0;top:0;height:3px;width:100%;background:var(--accent);transform:scaleX(0);transform-origin:left;z-index:60}
 
@@ -255,4 +260,5 @@ footer{padding:32px 0 56px;color:var(--muted);font:400 .85rem var(--mono);border
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
   html{scroll-behavior:auto}
+  .reveal{opacity:1!important}
 }

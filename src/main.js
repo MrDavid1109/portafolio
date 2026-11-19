@@ -199,6 +199,16 @@ const sio=new IntersectionObserver(es=>es.forEach(e=>{
 }),{threshold:.5});
 sio.observe(statsEl);
 
+/* ---------- entrada suave de tarjetas al hacer scroll ---------- */
+if(!reduce){
+  const rev=new IntersectionObserver(es=>es.forEach(e=>{
+    if(!e.isIntersecting) return; rev.unobserve(e.target);
+    const n=e.target; n.classList.add("in");
+    n.addEventListener("animationend",()=>n.classList.remove("reveal","in"),{once:true});
+  }),{threshold:.12});
+  $$(".pj, .group").forEach((x,i)=>{ x.classList.add("reveal"); x.style.animationDelay=((i%3)*.08)+"s"; rev.observe(x); });
+}
+
 /* ---------- cursor propio ---------- */
 if(matchMedia("(hover:hover) and (pointer:fine)").matches && !reduce){
   root.classList.add("cur");
