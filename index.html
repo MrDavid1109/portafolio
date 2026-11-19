@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>David Melo, Portafolio</title>
+<script>document.documentElement.classList.add("js");</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+
+<div id="progress"></div>
+
+<div id="loader" aria-hidden="true">
+  <div class="top"><span>~/david-melo</span><span>Cargando</span></div>
+  <div><div class="big"><span id="ldNum">0</span><small>%</small></div><div class="bar"><i id="ldBar"></i></div></div>
+</div>
+
+<div class="cur-dot" id="curDot"></div>
+<div class="cur-ring" id="curRing"><span id="curLab"></span></div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#inicio"><b>~/</b>david-melo</a>
+    <div class="hdr-right">
+      <button class="kbd" id="colorBtn" type="button" aria-label="Cambiar color de acento"><b>C</b><span>cambiar color</span></button>
+      <button id="menuBtn" type="button" aria-expanded="false" aria-controls="menu">Menú</button>
+    </div>
+  </div>
+</header>
+
+<nav id="menu" aria-label="Menú principal">
+  <div class="wrap">
+    <p class="label" style="margin-bottom:20px">// trabajemos juntos</p>
+    <ul>
+      <li><a href="#inicio" data-scr>Inicio</a></li>
+      <li><a href="#ramas" data-scr>Ramas</a></li>
+      <li><a href="#proyectos" data-scr>Proyectos</a></li>
+      <li><a href="#formacion" data-scr>Formación</a></li>
+      <li><a href="#stack" data-scr>Stack</a></li>
+      <li><a href="#contacto" data-scr>Contacto</a></li>
+    </ul>
+  </div>
+  <div class="wrap foot"><span>david.melo@colegio-santagema.es</span><span>Prototipo v0.2</span></div>
+</nav>
+
+<header class="hero" id="inicio">
+  <div class="deco" aria-hidden="true">
+    <span style="left:4%;top:8%;--d:28">{ }</span>
+    <span style="left:46%;top:2%;--d:-40">&lt;/&gt;</span>
+    <span style="left:30%;bottom:6%;--d:52">=&gt;</span>
+    <span style="right:6%;bottom:10%;--d:-26">[ ]</span>
+  </div>
+  <div class="wrap">
+    <div>
+      <div class="hero-top">
+        <strong>David Melo Boullon</strong>
+        <span class="status"><i></i>Máster en curso</span>
+      </div>
+      <h1 class="hl-wrap" aria-label="Programo, enseño y coordino">
+        <a class="hl" href="#rama-dev" data-cursor="Ver rama" style="--c:var(--dev)"><span style="--d:.05s">Programo</span></a>
+        <a class="hl" href="#rama-doc" data-cursor="Ver rama" style="--c:var(--doc)"><span style="--d:.15s">Enseño</span></a>
+        <a class="hl" href="#rama-coord" data-cursor="Ver rama" style="--c:var(--coord)"><span style="--d:.25s">Coordino</span></a>
+      </h1>
+      <p class="lead">Aplicaciones web y de escritorio, clases de Informática en Formación Profesional y la coordinación de un departamento con prácticas en empresa.</p>
+    </div>
+    <div class="term" aria-label="Resumen en forma de terminal">
+      <div class="term-bar"><i></i><i></i><i></i><span>zsh, david@portfolio</span></div>
+<pre><span class="p">$</span> git branch
+  <span class="d">programador</span>
+  <span class="o">profesor</span>
+  <span style="color:var(--coord)">coordinador</span>
+* main
+
+<span class="p">$</span> git status máster
+<span class="o">en curso</span>
+<span class="m">rama sin fusionar</span>
+
+<span class="p">$</span> <span class="cursor"></span></pre>
+    </div>
+  </div>
+</header>
+
+<div class="marquee" aria-hidden="true"><div class="track" id="m1"></div></div>
+<div class="marquee rev" aria-hidden="true"><div class="track" id="m2"></div></div>
+
+<main>
+<section id="cifras">
+  <div class="wrap">
+    <div class="stats" id="stats"></div>
+  </div>
+</section>
+
+<section id="ramas">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="label">// ramas</p>
+      <h2 data-scr>Tres ramas, un repositorio</h2>
+      <p>Cada faceta se alimenta de las otras. Sigue bajando y se apilan una sobre otra.</p>
+    </div>
+    <div class="stackcards" id="stackcards"></div>
+  </div>
+</section>
+
+<section id="proyectos">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="label">// proyectos</p>
+      <h2 data-scr>Proyectos destacados</h2>
+      <p>Una selección de lo que construyo. Cada tarjeta es un repositorio: ábrela para ver el detalle.</p>
+    </div>
+    <div class="projects" id="projgrid"></div>
+  </div>
+</section>
+
+<div class="modal" id="projModal" role="dialog" aria-modal="true" aria-labelledby="pjTitle" aria-hidden="true">
+  <div class="modal-back" data-close></div>
+  <div class="modal-card" role="document">
+    <button class="modal-x" id="pjClose" type="button" aria-label="Cerrar">✕</button>
+    <div class="modal-body" id="pjBody"></div>
+  </div>
+</div>
+
+<section id="formacion">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="label">// formación</p>
+      <h2 data-scr>Formación y titulaciones</h2>
+      <p>Del más reciente al más antiguo. El máster sigue abierto: es el commit que aún estoy escribiendo.</p>
+    </div>
+    <div class="log" id="log"><div class="log-line"></div><div class="log-fill" id="logFill"></div></div>
+  </div>
+</section>
+
+<section id="stack">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="label">// stack</p>
+      <h2 data-scr>Con qué trabajo</h2>
+      <p>Las tecnologías que uso a diario, tanto para desarrollar como para enseñar.</p>
+    </div>
+    <div class="stack" id="stackgrid"></div>
+  </div>
+</section>
+
+<section id="contacto">
+  <div class="wrap">
+    <div class="contact">
+      <p class="label">// contacto</p>
+      <h2 data-scr>¿Hablamos?</h2>
+      <p class="sub">Para un proyecto, una colaboración con el centro o unas prácticas en empresa, escríbeme.</p>
+      <div class="mail">david.melo@colegio-santagema.es</div>
+      <div class="row">
+        <a class="btn mag" data-cursor="Escribir" href="mailto:david.melo@colegio-santagema.es">Enviar un correo</a>
+        <button class="btn ghost mag" id="copyBtn" type="button">Copiar correo</button>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap">© 2026 David Melo Boullon. Prototipo v0.2, el contenido de ejemplo está marcado para sustituir.</div></footer>
+
+<div id="toast" role="status"></div>
+
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>
