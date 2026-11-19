@@ -1,4 +1,4 @@
-import { BRANCHES, PROJECTS, LOG, STACK, STATS, MARQUEE1, MARQUEE2, ACCENTS } from './data.js';
+import { CONTENT, UI, ACCENTS } from './data.js';
 
 const $ = (s,r=document)=>r.querySelector(s);
 const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
@@ -7,13 +7,34 @@ const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 function el(tag, cls, html){ const e=document.createElement(tag); if(cls) e.className=cls; if(html!=null) e.innerHTML=html; return e; }
 const clamp = (v,a,b)=>Math.min(b,Math.max(a,v));
 
+/* ---------- idioma ---------- */
+const LANGS=["es","en"];
+let lang = localStorage.getItem("lang");
+if(!LANGS.includes(lang)) lang = (navigator.language||"es").toLowerCase().startsWith("en") ? "en" : "es";
+root.lang = lang;
+const t = UI[lang];
+const c = CONTENT[lang];
+if(t.page_title) document.title = t.page_title;
+
+/* textos estáticos marcados con data-i18n / -aria / -cursor */
+$$("[data-i18n]").forEach(e=>{ const k=e.dataset.i18n; if(t[k]!=null) e.textContent=t[k]; });
+$$("[data-i18n-aria]").forEach(e=>{ const k=e.dataset.i18nAria; if(t[k]!=null) e.setAttribute("aria-label",t[k]); });
+$$("[data-i18n-cursor]").forEach(e=>{ const k=e.dataset.i18nCursor; if(t[k]!=null) e.dataset.cursor=t[k]; });
+
+$("#langBtn").addEventListener("click",()=>{
+  const next = lang==="es" ? "en" : "es";
+  localStorage.setItem("lang", next);
+  try{ sessionStorage.setItem("ll_skip","1"); }catch(_){}
+  location.reload();
+});
+
 /* ---------- contenido ---------- */
-[["m1",MARQUEE1],["m2",MARQUEE2]].forEach(([id,arr])=>{
-  const t=$("#"+id); for(let n=0;n<4;n++) arr.forEach(x=>t.append(el("span",null,x)));
+[["m1",c.MARQUEE1],["m2",c.MARQUEE2]].forEach(([id,arr])=>{
+  const trk=$("#"+id); for(let n=0;n<4;n++) arr.forEach(x=>trk.append(el("span",null,x)));
 });
 
 const statsEl=$("#stats");
-STATS.forEach(s=>{
+c.STATS.forEach(s=>{
   const d=el("div","stat"); const n=el("div","num"); n.setAttribute("aria-label",s.v); n.dataset.v=s.v;
   [...s.v].forEach(ch=>{
     const dg=el("span","digit"); dg.setAttribute("aria-hidden","true"); const col=el("span","col"); col.dataset.t=ch;
@@ -24,7 +45,7 @@ STATS.forEach(s=>{
 });
 
 const stackEl=$("#stackcards");
-Object.entries(BRANCHES).forEach(([k,b],i)=>{
+Object.entries(c.BRANCHES).forEach(([k,b],i)=>{
   const card=el("article","sc"); card.id="rama-"+k; card.style.setProperty("--c",b.color); card.style.setProperty("--i",i);
   const inn=el("div","sc-in");
   const head=el("div"); head.append(el("p","tag",b.meta), el("h3",null,b.title), el("p","intro",b.intro));
@@ -32,58 +53,57 @@ Object.entries(BRANCHES).forEach(([k,b],i)=>{
   b.items.forEach(it=>{
     const li=el("li"); li.append(el("h4",null,it.t), el("p",null,it.p));
     const tg=el("div","tags"); it.tags.forEach(x=>tg.append(el("span",null,x))); li.append(tg);
-    if(it.demo) li.append(el("p","demo","Ejemplo: sustitúyelo por tu proyecto"));
     list.append(li);
   });
   inn.append(head,list); card.append(inn); stackEl.append(card);
 });
 
 /* ---------- proyectos ---------- */
-const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const initials = t => t.replace(/\(ejemplo\)/i,"").trim().split(/\s+/).slice(0,2).map(w=>w[0]||"").join("").toUpperCase();
+const esc = s => String(s).replace(/[&<>"]/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
+const initials = x => x.replace(/\((ejemplo|example)\)/i,"").trim().split(/\s+/).slice(0,2).map(w=>w[0]||"").join("").toUpperCase();
 function cover(p, big){
-  if(p.cover) return `<img src="${esc(p.cover)}" alt="Captura de ${esc(p.title)}" loading="lazy">`;
-  const note = p.ejemplo ? (big?"ejemplo · añade una imagen":"ejemplo · añade captura") : (big?"sin captura · añade una imagen":"sin captura");
-  return `<span class="pj-ph" aria-hidden="true">${esc(initials(p.title))}</span><span class="pj-ph-note">${note}</span>`;
+  if(p.cover) return `<img src="${esc(p.cover)}" alt="${esc(p.title)}" loading="lazy">`;
+  const note = p.ejemplo ? (big?t.proj_eg_cover_big:t.proj_eg_cover) : (big?t.proj_nocover_big:t.proj_nocover);
+  return `<span class="pj-ph" aria-hidden="true">${esc(initials(p.title))}</span><span class="pj-ph-note">${esc(note)}</span>`;
 }
 function links(p){
   let out="";
-  if(p.demo) out+=`<a class="pj-link" href="${esc(p.demo)}" target="_blank" rel="noopener" data-stop>Demo ↗</a>`;
-  if(p.code) out+=`<a class="pj-link" href="${esc(p.code)}" target="_blank" rel="noopener" data-stop>Código ↗</a>`;
+  if(p.demo) out+=`<a class="pj-link" href="${esc(p.demo)}" target="_blank" rel="noopener" data-stop>${esc(t.proj_demo)}</a>`;
+  if(p.code) out+=`<a class="pj-link" href="${esc(p.code)}" target="_blank" rel="noopener" data-stop>${esc(t.proj_code)}</a>`;
   return out;
 }
 const projgrid=$("#projgrid");
-PROJECTS.forEach(p=>{
-  const c=el("article","pj"+(p.cover?"":" no-cover")); c.tabIndex=0; c.dataset.id=p.id;
-  c.setAttribute("role","button"); c.setAttribute("aria-label","Ver detalle de "+p.title.replace(/\(ejemplo\)/i,"").trim());
-  c.innerHTML=`
+c.PROJECTS.forEach(p=>{
+  const card=el("article","pj"+(p.cover?"":" no-cover")); card.tabIndex=0; card.dataset.id=p.id;
+  card.setAttribute("role","button"); card.setAttribute("aria-label",t.proj_open_aria+p.title);
+  card.innerHTML=`
     <div class="pj-cover">${cover(p)}</div>
     <div class="pj-main">
-      <div class="pj-top"><h3>${esc(p.title.replace(/\s*\(ejemplo\)/i,""))}</h3>${p.ejemplo?'<span class="pj-eg">ejemplo</span>':''}</div>
+      <div class="pj-top"><h3>${esc(p.title)}</h3>${p.ejemplo?`<span class="pj-eg">${esc(t.proj_ejemplo)}</span>`:''}</div>
       <p class="pj-tag">${esc(p.tagline)}</p>
       <div class="tags">${p.stack.slice(0,4).map(s=>`<span>${esc(s)}</span>`).join("")}</div>
     </div>
-    <div class="pj-foot"><span class="pj-open">Ver detalle →</span><span class="pj-links">${links(p)}</span></div>`;
-  projgrid.append(c);
+    <div class="pj-foot"><span class="pj-open">${esc(t.proj_detalle)}</span><span class="pj-links">${links(p)}</span></div>`;
+  projgrid.append(card);
 });
 
-/* panel de detalle */
 const modal=$("#projModal"), pjBody=$("#pjBody"), pjClose=$("#pjClose");
 let lastFocus=null;
 function openProject(id){
-  const p=PROJECTS.find(x=>x.id===id); if(!p) return;
+  const p=c.PROJECTS.find(x=>x.id===id); if(!p) return;
   const gallery = (p.shots&&p.shots.length)
-    ? `<div class="pj-shots">${p.shots.map(s=>`<img src="${esc(s)}" alt="Captura de ${esc(p.title)}" loading="lazy">`).join("")}</div>`
+    ? `<div class="pj-shots">${p.shots.map(s=>`<img src="${esc(s)}" alt="${esc(p.title)}" loading="lazy">`).join("")}</div>`
     : "";
+  const meta=["#"+p.id, p.year, p.role].filter(Boolean).map(esc).join(" · ");
   pjBody.innerHTML=`
     <div class="pj-detail-cover ${p.cover?"":"no-cover"}">${cover(p,true)}</div>
-    <p class="pj-commit">commit ${esc(["#"+p.id, p.year, p.role].filter(Boolean).join(" · "))}</p>
-    <h2 id="pjTitle">${esc(p.title.replace(/\s*\(ejemplo\)/i,""))}${p.ejemplo?'<span class="pj-eg">ejemplo</span>':''}</h2>
+    <p class="pj-commit">commit ${meta}</p>
+    <h2 id="pjTitle">${esc(p.title)}${p.ejemplo?`<span class="pj-eg">${esc(t.proj_ejemplo)}</span>`:''}</h2>
     <p class="pj-lead">${esc(p.tagline)}</p>
     <p class="pj-desc">${esc(p.p)}</p>
     ${p.highlights&&p.highlights.length?`<ul class="pj-high">${p.highlights.map(h=>`<li>${esc(h)}</li>`).join("")}</ul>`:""}
     <div class="tags">${p.stack.map(s=>`<span>${esc(s)}</span>`).join("")}</div>
-    ${(p.demo||p.code)?`<div class="row">${p.demo?`<a class="btn" href="${esc(p.demo)}" target="_blank" rel="noopener">Ver demo ↗</a>`:""}${p.code?`<a class="btn ghost" href="${esc(p.code)}" target="_blank" rel="noopener">Ver código ↗</a>`:""}</div>`:""}
+    ${(p.demo||p.code)?`<div class="row">${p.demo?`<a class="btn" href="${esc(p.demo)}" target="_blank" rel="noopener">${esc(t.proj_demo_btn)}</a>`:""}${p.code?`<a class="btn ghost" href="${esc(p.code)}" target="_blank" rel="noopener">${esc(t.proj_code_btn)}</a>`:""}</div>`:""}
     ${gallery}`;
   lastFocus=document.activeElement;
   modal.classList.add("open"); modal.setAttribute("aria-hidden","false");
@@ -117,14 +137,14 @@ addEventListener("keydown",e=>{
 });
 
 const log=$("#log");
-LOG.forEach(e=>{
+c.LOG.forEach(e=>{
   const d=el("div","entry"); d.style.setProperty("--c",e.c); d.append(el("time",null,e.when));
-  const b=el("div"); b.append(el("h3",null,e.t+(e.now?'<span class="badge">en curso</span>':"")), el("p",null,e.p));
+  const b=el("div"); b.append(el("h3",null,e.t+(e.now?`<span class="badge">${esc(t.badge_now)}</span>`:"")), el("p",null,e.p));
   d.append(b); log.append(d);
 });
 
 const sg=$("#stackgrid");
-STACK.forEach(s=>{
+c.STACK.forEach(s=>{
   const g=el("div","group"); g.style.setProperty("--c",s.c); g.append(el("h3",null,s.g));
   const w=el("div"); s.i.forEach(x=>w.append(el("span",null,x))); g.append(w); sg.append(g);
 });
@@ -134,7 +154,7 @@ let accIdx=0;
 function setAccent(i,notify){
   accIdx=i; const a=ACCENTS[i];
   root.style.setProperty("--accent",a.c); root.style.setProperty("--accent-rgb",a.rgb);
-  if(notify){ const t=$("#toast"); t.textContent="Color de acento: "+a.n; t.classList.add("show"); clearTimeout(setAccent.t); setAccent.t=setTimeout(()=>t.classList.remove("show"),1400); }
+  if(notify){ const to=$("#toast"); to.textContent=t.toast_accent+(t.accents[a.k]||a.k); to.classList.add("show"); clearTimeout(setAccent.to); setAccent.to=setTimeout(()=>to.classList.remove("show"),1400); }
 }
 const nextAccent=()=>setAccent((accIdx+1)%ACCENTS.length,true);
 addEventListener("keydown",e=>{ if(e.key.toLowerCase()==="c" && !e.metaKey && !e.ctrlKey && !e.altKey) nextAccent(); });
@@ -143,7 +163,7 @@ $("#colorBtn").addEventListener("click",nextAccent);
 /* ---------- menú ---------- */
 const menu=$("#menu"), mbtn=$("#menuBtn");
 function toggleMenu(open){
-  menu.classList.toggle("open",open); mbtn.setAttribute("aria-expanded",String(open)); mbtn.textContent=open?"Cerrar":"Menú";
+  menu.classList.toggle("open",open); mbtn.setAttribute("aria-expanded",String(open)); mbtn.textContent=open?t.btn_menu_close:t.btn_menu;
 }
 mbtn.addEventListener("click",()=>toggleMenu(!menu.classList.contains("open")));
 $$("#menu a").forEach(a=>a.addEventListener("click",()=>toggleMenu(false)));
@@ -175,7 +195,7 @@ $$("h2[data-scr]").forEach(h=>io.observe(h));
 /* ---------- contadores que ruedan ---------- */
 const sio=new IntersectionObserver(es=>es.forEach(e=>{
   if(!e.isIntersecting) return; sio.unobserve(e.target);
-  $$(".col",e.target).forEach((c,i)=>{ c.style.transitionDelay=(i*.12)+"s"; c.style.transform=`translateY(${-Number(c.dataset.t)}em)`; });
+  $$(".col",e.target).forEach((col,i)=>{ col.style.transitionDelay=(i*.12)+"s"; col.style.transform=`translateY(${-Number(col.dataset.t)}em)`; });
 }),{threshold:.5});
 sio.observe(statsEl);
 
@@ -187,8 +207,8 @@ if(matchMedia("(hover:hover) and (pointer:fine)").matches && !reduce){
   addEventListener("pointermove",e=>{ tx=e.clientX; ty=e.clientY; dot.style.transform=`translate3d(${tx}px,${ty}px,0)`; },{passive:true});
   (function loop(){ rx+=(tx-rx)*.16; ry+=(ty-ry)*.16; ring.style.transform=`translate3d(${rx}px,${ry}px,0)`; requestAnimationFrame(loop); })();
   document.addEventListener("pointerover",e=>{
-    const t=e.target.closest("[data-cursor]");
-    if(t){ lab.textContent=t.dataset.cursor; ring.classList.add("big"); } else { ring.classList.remove("big"); }
+    const el2=e.target.closest("[data-cursor]");
+    if(el2){ lab.textContent=el2.dataset.cursor; ring.classList.add("big"); } else { ring.classList.remove("big"); }
   });
 }
 
@@ -219,9 +239,9 @@ if(!reduce){
 /* ---------- copiar correo ---------- */
 $("#copyBtn").addEventListener("click",async()=>{
   const b=$("#copyBtn");
-  try{ await navigator.clipboard.writeText("david.melo@colegio-santagema.es"); b.textContent="Copiado"; }
-  catch(err){ b.textContent="Selecciona el correo de arriba"; }
-  setTimeout(()=>b.textContent="Copiar correo",1800);
+  try{ await navigator.clipboard.writeText("david.melo@colegio-santagema.es"); b.textContent=t.copied; }
+  catch(err){ b.textContent=t.copy_fail; }
+  setTimeout(()=>b.textContent=t.btn_copy,1800);
 });
 
 /* ---------- scroll: progreso, tarjetas apiladas, línea de formación ---------- */
@@ -231,9 +251,9 @@ function onScroll(){
   ticking=false;
   const h=document.documentElement.scrollHeight-innerHeight;
   bar.style.transform=`scaleX(${h>0?scrollY/h:0})`;
-  const sticky=getComputedStyle(cards[0]).position==="sticky";
-  cards.forEach((c,i)=>{
-    const inn=c.firstElementChild, next=cards[i+1];
+  const sticky=cards.length && getComputedStyle(cards[0]).position==="sticky";
+  cards.forEach((cd,i)=>{
+    const inn=cd.firstElementChild, next=cards[i+1];
     if(!sticky||!next){ inn.style.transform=""; inn.style.filter=""; return; }
     const stickyTop=84+(i+1)*26;
     const p=clamp((innerHeight-next.getBoundingClientRect().top)/(innerHeight-stickyTop),0,1);
@@ -250,7 +270,8 @@ onScroll();
 /* ---------- carga ---------- */
 function reveal(){ root.classList.add("ready"); }
 const loader=$("#loader");
-if(reduce){ loader.style.display="none"; reveal(); }
+let skip=false; try{ skip=sessionStorage.getItem("ll_skip")==="1"; if(skip) sessionStorage.removeItem("ll_skip"); }catch(_){}
+if(reduce||skip){ loader.style.display="none"; reveal(); }
 else{
   const num=$("#ldNum"), lb=$("#ldBar"), t0=performance.now(), D=1100;
   (function step(now){
