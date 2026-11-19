@@ -257,7 +257,7 @@ if(!reduce){
 /* ---------- copiar correo ---------- */
 $("#copyBtn").addEventListener("click",async()=>{
   const b=$("#copyBtn");
-  try{ await navigator.clipboard.writeText("david.melo@colegio-santagema.es"); b.textContent=t.copied; }
+  try{ await navigator.clipboard.writeText("melod2281@gmail.com"); b.textContent=t.copied; }
   catch(err){ b.textContent=t.copy_fail; }
   setTimeout(()=>b.textContent=t.btn_copy,1800);
 });
